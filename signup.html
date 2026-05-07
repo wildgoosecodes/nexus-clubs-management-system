@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCC - Sign In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #371989;
+            --gold: #f0b323;
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Barlow', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(240,179,35,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            animation: fadeUp 0.9s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 90px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 14px rgba(0,0,0,0.4));
+        }
+
+        .club-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 0.06em;
+            line-height: 1;
+            color: var(--gold);
+        }
+
+        .tagline {
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-top: 0.3rem;
+        }
+
+        .gold-line {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+
+        /* Card */
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 0.5px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(0,0,0,0.25);
+            border-radius: 8px;
+            padding: 3px;
+            margin-bottom: 1.75rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.45);
+            font-family: 'Barlow', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        /* Panels */
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* Fields */
+        .field {
+            margin-bottom: 1rem;
+        }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 6px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 10px 13px;
+            background: rgba(255,255,255,0.07);
+            border: 0.5px solid rgba(255,255,255,0.18);
+            border-radius: 7px;
+            color: var(--white);
+            font-size: 14px;
+            font-family: 'Barlow', sans-serif;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .field input::placeholder {
+            color: rgba(255,255,255,0.22);
+        }
+
+        .field input:focus {
+            border-color: var(--gold);
+            background: rgba(240,179,35,0.07);
+        }
+
+        /* Forgot */
+        .forgot {
+            text-align: right;
+            margin-top: -6px;
+            margin-bottom: 1.25rem;
+        }
+
+        .forgot a {
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .forgot a:hover { color: var(--gold); }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%;
+            padding: 11px;
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            font-family: 'Barlow', sans-serif;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover { opacity: 0.88; }
+        .submit-btn:active { transform: scale(0.98); }
+
+        /* Footer */
+        .footer-text {
+            text-align: center;
+            font-size: 12.5px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 1.25rem;
+        }
+
+        .footer-text a {
+            color: var(--gold);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Back link */
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            font-size: 12px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link a:hover { color: rgba(255,255,255,0.6); }
+
+        /* Success */
+        .success-msg {
+            display: none;
+            text-align: center;
+            padding: 0.5rem 0 0.25rem;
+        }
+
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(240,179,35,0.12);
+            border: 1.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.1rem;
+            font-size: 22px;
+            color: var(--gold);
+        }
+
+        .success-msg h3 {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-msg p {
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Brand -->
+        <div class="brand">
+            <img class="logo" src="coppinbridge.jpg" alt="Coppin State Eagles Logo">
+            <div class="club-name">MCC</div>
+            <div class="tagline">Coppin State University</div>
+            <div class="gold-line"></div>
+        </div>
+
+        <!-- Card -->
+        <div class="card">
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('login')">Log In</button>
+                <button class="tab" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Panel -->
+            <div id="login-panel" class="panel active">
+                <div class="field">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="you@coppin.edu">
+                </div>
+                <div class="field">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••">
+                </div>
+                <div class="forgot"><a href="#">Forgot password?</a></div>
+                <button class="submit-btn" onclick="handleLogin()">Log In</button>
+                <p class="footer-text">New member? <a onclick="switchTab('signup')">Create an account</a></p>
+            </div>
+
+            <!-- Sign Up Panel -->
+            <div id="signup-panel" class="panel">
+                <div class="field">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="First Last">
+                </div>
+                <div class="field">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="you@coppin.edu">
+                </div>
+                <div class="field">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password">
+                </div>
+                <div class="field">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" placeholder="Repeat password">
+                </div>
+                <button class="submit-btn" onclick="handleSignup()">Create Account</button>
+                <p class="footer-text">Already a member? <a onclick="switchTab('login')">Log in</a></p>
+            </div>
+
+            <!-- Success Message -->
+            <div id="success-msg" class="success-msg">
+                <div class="success-icon">✓</div>
+                <h3 id="success-title">Welcome to MCC!</h3>
+                <p id="success-body">Your account has been created. You're now part of the community.</p>
+                <button class="submit-btn" onclick="resetForm()">Continue</button>
+            </div>
+
+        </div>
+
+        <!-- Back to home -->
+        <div class="back-link">
+            <a href="index.html">&larr; Back to Home</a>
+        </div>
+
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach((t, i) => {
+                t.classList.toggle('active', tab === 'login' ? i === 0 : i === 1);
+            });
+            document.getElementById('login-panel').classList.toggle('active', tab === 'login');
+            document.getElementById('signup-panel').classList.toggle('active', tab === 'signup');
+            document.getElementById('success-msg').style.display = 'none';
+        }
+
+        function showSuccess(title, body) {
+            document.getElementById('login-panel').classList.remove('active');
+            document.getElementById('signup-panel').classList.remove('active');
+            document.getElementById('success-title').textContent = title;
+            document.getElementById('success-body').textContent = body;
+            document.getElementById('success-msg').style.display = 'block';
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            showSuccess('Welcome back!', "You're now logged in to your MCC account.");
+        }
+
+        function handleSignup() {
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            if (!name || !email || !password || !confirm) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            if (password !== confirm) {
+                alert('Passwords do not match.');
+                return;
+            }
+            showSuccess('Welcome to MCC!', "Your account has been created. You're now part of the community.");
+        }
+
+        function resetForm() {
+            document.getElementById('success-msg').style.display = 'none';
+            switchTab('login');
+        }
+    </script>
+
+</body>
+</html>
